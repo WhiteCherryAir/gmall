@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bai.gmall.manage.dao.PmsBaseCatalog1Dao">
+
+    <resultMap type="com.bai.gmall.entity.PmsBaseCatalog1" id="PmsBaseCatalog1Map">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <collection property="catalog2s" ofType="com.bai.gmall.entity.PmsBaseCatalog2">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="catalog1Id" column="catalog1_id"/>
+        </collection>
+    </resultMap>
+
+    <!--查询二级分类-->
+    <select id="getCatalog2" parameterType="String" resultMap="PmsBaseCatalog1Map">
+        SELECT * from pms_base_catalog2 c2 LEFT JOIN pms_base_catalog1 c1 ON c2.catalog1_id = c1.id WHERE c1.id = #{catalog1Id}
+    </select>
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bai.gmall.manage.dao.PmsBaseAttrInfoDao">
+
+    <resultMap type="com.bai.gmall.entity.PmsBaseAttrInfo" id="PmsBaseAttrInfoMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="attrName" column="attr_name" jdbcType="VARCHAR"/>
+        <result property="catalog3Id" column="catalog3_id" jdbcType="VARCHAR"/>
+        <result property="isEnabled" column="is_enabled" jdbcType="VARCHAR"/>
+        <collection property="attrValueList" ofType="com.bai.gmall.entity.PmsBaseAttrValue">
+            <id property="id" column="id"/>
+            <result property="valueName" column="value_name"/>
+            <result property="attrId" column="attr_id"/>
+            <result property="isEnabled" column="is_enabled"/>
+        </collection>
+    </resultMap>
+
+    <!--<resultMap type="com.bai.gmall.entity.PmsBaseAttrInfo" id="PmsBaseAttrInfoMap" autoMapping="true">
+        <result property="id" column="ba1_id" jdbcType="VARCHAR"/>
+        <collection property="attrValueList" ofType="com.bai.gmall.entity.PmsBaseAttrValue" autoMapping="true">
+            <result property="id" column="ba2_id"/>
+        </collection>
+    </resultMap>-->
+
+    <select id="getAttrInfoList" parameterType="String" resultMap="PmsBaseAttrInfoMap">
+        SELECT * from pms_base_attr_info at1 LEFT JOIN pms_base_attr_value at2 ON
+at1.id = at2.attr_id LEFT JOIN pms_base_catalog3 c3 ON at1.catalog3_id = c3.id
+LEFT JOIN pms_base_catalog2 c2 ON c3.catalog2_id = c2.id LEFT JOIN pms_base_catalog1 c1
+ON c2.catalog1_id = c1.id WHERE c3.id = #{id}
+    </select>
+
+</mapper>

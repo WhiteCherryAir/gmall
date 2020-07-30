@@ -1,0 +1,17 @@
+# 服务端口号
+server:
+  port: 8093
+logging:
+  level:
+    root: info
+    #com.bai.gmall.user.dao: debug
+    #com.bai.gmall.user.service: debug
+    com.bai.gmall.item.controller: debug
+#关闭thymeleafre缓存（热部署）
+spring:
+  thymeleaf:
+    cache: false
+    #松校验
+    mode: LEGACYHTML5
+#  mvc:
+#    static-path-pattern: /static/**

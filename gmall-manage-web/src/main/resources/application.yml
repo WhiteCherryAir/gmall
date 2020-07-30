@@ -1,0 +1,9 @@
+# 服务端口号
+server:
+  port: 8091
+logging:
+  level:
+    root: info
+    #com.bai.gmall.user.dao: debug
+    #com.bai.gmall.user.service: debug
+    com.bai.gmall.manage.controller: debug

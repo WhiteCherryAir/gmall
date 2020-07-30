@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bai.gmall.manage.dao.PmsProductSaleAttrDao">
+
+    <!--<resultMap type="com.bai.gmall.entity.PmsProductSaleAttr" id="PmsProductSaleAttrMap">
+        <result property="id" column="sa1_id" jdbcType="VARCHAR"/>
+        <result property="productId" column="product_id" jdbcType="VARCHAR"/>
+        <result property="saleAttrId" column="sale_attr_id" jdbcType="VARCHAR"/>
+        <result property="saleAttrName" column="sale_attr_name" jdbcType="VARCHAR"/>
+        <collection property="spuSaleAttrValueList" ofType="com.bai.gmall.entity.PmsProductSaleAttrValue">
+            <id property="id" column="sa2_id"/>
+            <result property="productId" column="product_id"/>
+            <result property="saleAttrId" column="sale_attr_id"/>
+            <result property="saleAttrValueName" column="sale_attr_value_name"/>
+        </collection>
+    </resultMap>-->
+
+    <resultMap type="com.bai.gmall.entity.PmsProductSaleAttr" id="PmsProductSaleAttrMap" autoMapping="true">
+        <result property="id" column="sa1_id" jdbcType="VARCHAR"/>
+        <collection property="spuSaleAttrValueList" ofType="com.bai.gmall.entity.PmsProductSaleAttrValue"
+                    autoMapping="true">
+            <id property="id" column="sa2_id"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="selectSpuSaleAttrListCheckBySku" resultMap="PmsProductSaleAttrMap">
+        SELECT sa1.id as sa1_id,sa2.id as sa2_id, sa1.*,sa2.*,IF(sa3.sku_id,1,0) as isChecked
+FROM pms_product_sale_attr sa1 JOIN pms_product_sale_attr_value sa2
+ON sa1.product_id = sa2.product_id
+AND sa1.sale_attr_id = sa2.sale_attr_id
+AND sa1.product_id = #{productId}
+LEFT JOIN pms_sku_sale_attr_value sa3
+ON sa2.id = sa3.sale_attr_value_id
+AND sa3.sku_id = #{skuId}
+    </select>
+</mapper>

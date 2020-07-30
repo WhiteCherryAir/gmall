@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bai.gmall.user.dao.UmsMemberDao">
+
+    <resultMap type="com.bai.gmall.entity.UmsMember" id="UmsMemberMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="memberLevelId" column="member_level_id" jdbcType="VARCHAR"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="gender" column="gender" jdbcType="INTEGER"/>
+        <result property="birthday" column="birthday" jdbcType="TIMESTAMP"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="job" column="job" jdbcType="VARCHAR"/>
+        <result property="personalizedSignature" column="personalized_signature" jdbcType="VARCHAR"/>
+        <result property="sourceType" column="source_type" jdbcType="INTEGER"/>
+        <result property="integration" column="integration" jdbcType="INTEGER"/>
+        <result property="growth" column="growth" jdbcType="INTEGER"/>
+        <result property="luckeyCount" column="luckey_count" jdbcType="INTEGER"/>
+        <result property="historyIntegration" column="history_integration" jdbcType="INTEGER"/>
+        <collection property="umsMemberReceiveAddressList" ofType="com.bai.gmall.entity.UmsMemberReceiveAddress">
+            <id column="id" property="id" jdbcType="VARCHAR"/>
+            <result property="memberId" column="member_id" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="phoneNumber" column="phone_number" jdbcType="VARCHAR"/>
+            <result property="defaultStatus" column="default_status" jdbcType="INTEGER"/>
+            <result property="postCode" column="post_code" jdbcType="VARCHAR"/>
+            <result property="province" column="province" jdbcType="VARCHAR"/>
+            <result property="city" column="city" jdbcType="VARCHAR"/>
+            <result property="region" column="region" jdbcType="VARCHAR"/>
+            <result property="detailAddress" column="detail_address" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UmsMemberMap">
+        select
+          id, member_level_id, username, password, nickname, phone, status, create_time, icon, gender, birthday, city, job, personalized_signature, source_type, integration, growth, luckey_count, history_integration
+        from gmall.ums_member
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UmsMemberMap">
+        select
+          id, member_level_id, username, password, nickname, phone, status, create_time, icon, gender, birthday, city, job, personalized_signature, source_type, integration, growth, luckey_count, history_integration
+        from gmall.ums_member
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UmsMemberMap">
+        select
+        id, member_level_id, username, password, nickname, phone, status, create_time, icon, gender, birthday, city,
+        job, personalized_signature, source_type, integration, growth, luckey_count, history_integration
+        from gmall.ums_member
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="memberLevelId != null">
+                and member_level_id = #{memberLevelId}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and nickname = #{nickname}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="icon != null and icon != ''">
+                and icon = #{icon}
+            </if>
+            <if test="gender != null">
+                and gender = #{gender}
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="job != null and job != ''">
+                and job = #{job}
+            </if>
+            <if test="personalizedSignature != null and personalizedSignature != ''">
+                and personalized_signature = #{personalizedSignature}
+            </if>
+            <if test="sourceType != null">
+                and source_type = #{sourceType}
+            </if>
+            <if test="integration != null">
+                and integration = #{integration}
+            </if>
+            <if test="growth != null">
+                and growth = #{growth}
+            </if>
+            <if test="luckeyCount != null">
+                and luckey_count = #{luckeyCount}
+            </if>
+            <if test="historyIntegration != null">
+                and history_integration = #{historyIntegration}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into gmall.ums_member(member_level_id, username, password, nickname, phone, status, create_time, icon, gender, birthday, city, job, personalized_signature, source_type, integration, growth, luckey_count, history_integration)
+        values (#{memberLevelId}, #{username}, #{password}, #{nickname}, #{phone}, #{status}, #{createTime}, #{icon}, #{gender}, #{birthday}, #{city}, #{job}, #{personalizedSignature}, #{sourceType}, #{integration}, #{growth}, #{luckeyCount}, #{historyIntegration})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update gmall.ums_member
+        <set>
+            <if test="memberLevelId != null">
+                member_level_id = #{memberLevelId},
+            </if>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="job != null and job != ''">
+                job = #{job},
+            </if>
+            <if test="personalizedSignature != null and personalizedSignature != ''">
+                personalized_signature = #{personalizedSignature},
+            </if>
+            <if test="sourceType != null">
+                source_type = #{sourceType},
+            </if>
+            <if test="integration != null">
+                integration = #{integration},
+            </if>
+            <if test="growth != null">
+                growth = #{growth},
+            </if>
+            <if test="luckeyCount != null">
+                luckey_count = #{luckeyCount},
+            </if>
+            <if test="historyIntegration != null">
+                history_integration = #{historyIntegration},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from gmall.ums_member where id = #{id}
+    </delete>
+
+    <!--查询地址-->
+    <select id="selectAddress" parameterType="String" resultMap="UmsMemberMap">
+        SELECT * FROM ums_member m LEFT JOIN ums_member_receive_address ma
+on m.id= ma.member_id where m.id = #{id}
+    </select>
+</mapper>
